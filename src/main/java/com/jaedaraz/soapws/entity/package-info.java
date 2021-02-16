@@ -5,5 +5,5 @@
 // Generated on: 2017.07.30 at 12:41:31 PM IST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://in28minutes.com/courses", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://github.com/JAEdARAZ/spring-SOAP-WS", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.jaedaraz.soapws.entity;
