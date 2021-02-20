@@ -17,17 +17,33 @@ public class CourseDetailsEndpoint {
     @Autowired
     private CourseService courseService;
 
+    //get Course by id
     @PayloadRoot(namespace = "http://github.com/JAEdARAZ/spring-SOAP-WS", localPart = "GetCourseDetailsRequest")
     @ResponsePayload //from Java to XML
     public GetCourseDetailsResponse processCourseDetailsRequest (@RequestPayload GetCourseDetailsRequest request){ //@RequestPayload: from XML to Java
         Course course = courseService.getCourseById(request.getId());
+        if(course == null){
+            throw new CourseNotFoundException("the Course id is invalid - " + request.getId());
+        }
+
         return this.mapCourseDetail(course);
     }
 
+    //get All courses
     @PayloadRoot(namespace = "http://github.com/JAEdARAZ/spring-SOAP-WS", localPart = "GetAllCourseDetailsRequest")
     @ResponsePayload //from Java to XML
     public GetAllCourseDetailsResponse processCourseDetailsRequest (@RequestPayload GetAllCourseDetailsRequest request){ //@RequestPayload: from XML to Java
         return this.mapAllCourseDetail(courseService.findAll());
+    }
+
+    //delete Course by id
+    @PayloadRoot(namespace = "http://github.com/JAEdARAZ/spring-SOAP-WS", localPart = "DeleteCourseDetailsRequest")
+    @ResponsePayload //from Java to XML
+    public DeleteCourseDetailsResponse processDeleteCourseDetailsRequest (@RequestPayload DeleteCourseDetailsRequest request){ //@RequestPayload: from XML to Java
+        CourseService.Status status = courseService.deleteById(request.getId());
+        DeleteCourseDetailsResponse response = new DeleteCourseDetailsResponse();
+        response.setStatus(this.mapStatus(status));
+        return response;
     }
 
     private GetCourseDetailsResponse mapCourseDetail(Course course){
@@ -54,5 +70,13 @@ public class CourseDetailsEndpoint {
         details.setDescription(course.getDescription());
 
         return details;
+    }
+
+    private Status mapStatus(CourseService.Status status){
+        if(status == CourseService.Status.FAILURE){
+            return Status.FAILURE;
+        }
+
+        return Status.SUCCESS;
     }
 }

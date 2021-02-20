@@ -4,11 +4,14 @@ import com.jaedaraz.soapws.bean.Course;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Component
 public class CourseService {
+    public enum Status{
+        SUCCESS, FAILURE;
+    }
+
     private static List<Course> courses = new ArrayList<>();
 
     static{
@@ -35,7 +38,8 @@ public class CourseService {
         return courses;
     }
 
-    public void deleteById(int id){
-        courses.removeIf(course -> course.getId() == id);
+    public Status deleteById(int id){
+        boolean isDeleted = courses.removeIf(course -> course.getId() == id);
+        return isDeleted ? Status.SUCCESS : Status.FAILURE;
     }
 }
