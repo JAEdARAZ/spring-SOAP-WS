@@ -4,7 +4,7 @@
         xmlns:tns="http://github.com/JAEdARAZ/spring-SOAP-WS"
         elementFormDefault="qualified"
 >
-    <!--the elements that can be used in the xmls of the namespace-->
+    <!-- get one -->
     <xs:element name="GetCourseDetailsRequest">
         <xs:complexType>
             <xs:sequence>
@@ -21,6 +21,7 @@
         </xs:complexType>
     </xs:element>
 
+    <!-- get all -->
     <xs:element name="GetAllCourseDetailsRequest">
         <xs:complexType>
         </xs:complexType>
@@ -34,6 +35,24 @@
         </xs:complexType>
     </xs:element>
 
+    <!-- delete one -->
+    <xs:element name="DeleteCourseDetailsRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:integer" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="DeleteCourseDetailsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- status: 1 success, 0 error -->
+                <xs:element name="status" type="tns:Status" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <!--created separately so it could be reused, not only in GetCourseDetailsResponse-->
     <xs:complexType name="CourseDetails">
         <xs:sequence>
@@ -42,5 +61,12 @@
             <xs:element name="description" type="xs:string" />
         </xs:sequence>
     </xs:complexType>
+    
+    <xs:simpleType name="Status">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SUCCESS" />
+            <xs:enumeration value="FAILURE" />
+        </xs:restriction>
+    </xs:simpleType>
 
 </xs:schema>
